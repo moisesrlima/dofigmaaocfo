@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import { 
   BookOpen, Target, BarChart3, Calculator, FileText, Presentation, 
@@ -10,11 +10,48 @@ import CountdownBanner from './components/CountdownBanner'
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   const KIWIFY_URL = "https://pay.kiwify.com.br/Zyk82qK"
 
+  const carouselImages = [
+    { src: "https://i.postimg.cc/3rVGPGz7/Captura-de-Tela-2026-08-23-a-s-02-47-51.png", alt: "Tela inicial da comunidade", caption: "Tela inicial da comunidade" },
+    { src: "https://i.postimg.cc/Qx77strF/Captura-de-Tela-2026-08-23-a-s-02-49-39.png", alt: "Planilha com formulas", caption: "Planilha com formulas" },
+    { src: "https://i.postimg.cc/vHnnMBdv/Captura-de-Tela-2026-08-23-a-s-03-05-11.png", alt: "Exemplo do certificado", caption: "Exemplo do certificado" },
+    { src: "https://i.postimg.cc/J7vX9XSB/Captura-de-Tela-2026-08-23-a-s-03-25-22.png", alt: "Lista do material anexo disponivel", caption: "Lista do material anexo disponível" },
+  ];
+
+  // Auto-play: troca de slide a cada 5 segundos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide(prev => {
+        const next = prev + 1;
+        return next >= carouselImages.length ? 0 : next;
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [carouselImages.length]);
+
+  const goToNext = () => {
+    setCurrentSlide(prev => {
+      const next = prev + 1;
+      return next >= carouselImages.length ? 0 : next;
+    });
+  };
+
+  const goToPrev = () => {
+    setCurrentSlide(prev => {
+      const prevIndex = prev - 1;
+      return prevIndex < 0 ? carouselImages.length - 1 : prevIndex;
+    });
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
   const whatYouGet = [
-    { icon: <BookOpen className="lucide-icon" />, text: 'Ebook “Do Figma ao CFO” — método completo UX → Negócio' },
+    { icon: <BookOpen className="lucide-icon" />, text: 'Ebook “Do Figma ao CFO” — método prático UX → Negócio' },
     { icon: <Target className="lucide-icon" />, text: 'Framework UX → Negócio — Problema → Comportamento → Métrica → Impacto → Decisão' },
     { icon: <BarChart3 className="lucide-icon" />, text: 'Matriz de métricas — principal, proteção e diagnóstico' },
     { icon: <Calculator className="lucide-icon" />, text: 'Calculadora de impacto — cenários conservador, provável e ambicioso' },
@@ -128,7 +165,7 @@ export default function Home() {
 
         <section className="bonuses-section">
           <div className="container">
-            <h2>E não é só isso. Você ainda leva 6 bônus exclusivos:</h2>
+            <h2>E não é só isso. Você ainda recebe 5 bônus + uma amostra gratuita:</h2>
             <div className="bonuses-grid">
               {bonuses.map((bonus, index) => (
                 <div key={index} className={`bonus-card ${bonus.isFreeSample ? 'free-sample' : ''}`}>
@@ -151,27 +188,44 @@ export default function Home() {
 
         <section className="kiwify-section">
           <div className="container">
-            <h2>Acesso imediato em uma plataforma completa</h2>
-            <p className="kiwify-subtitle">Todo o material — ebook, bônus e atualizações futuras — será entregue na área de membros da Kiwify, a plataforma mais moderna e intuitiva para produtos digitais.</p>
+            <h2>Acesso imediato pela área de membros</h2>
+            <p className="kiwify-subtitle">Todo o material — ebook e bônus — será disponibilizado na área de membros da Kiwify.</p>
             <div className="kiwify-content">
-              <div className="kiwify-video">
-                <iframe 
-                  src="https://www.youtube.com/embed/OO6GrUyJ_bw?si=ih6LCEsu53R9vAyd" 
-                  title="YouTube video player" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                  referrerPolicy="strict-origin-when-cross-origin" 
-                  allowFullScreen>
-                </iframe>
+              <div className="kiwify-carousel">
+                <div className="carousel-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                  {carouselImages.map((image, index) => (
+                    <div className="carousel-slide" key={index}>
+                      <img src={image.src} alt={image.alt} />
+                      <span className="slide-caption">{image.caption}</span>
+                    </div>
+                  ))}
+                </div>
+                <button 
+                  className="carousel-button carousel-prev" 
+                  onClick={goToPrev}
+                >‹</button>
+                <button 
+                  className="carousel-button carousel-next" 
+                  onClick={goToNext}
+                >›</button>
+                <div className="carousel-dots">
+                  {carouselImages.map((_, index) => (
+                    <button 
+                      key={index}
+                      className={`carousel-dot ${currentSlide === index ? 'active' : ''}`}
+                      onClick={() => goToSlide(index)}
+                    ></button>
+                  ))}
+                </div>
               </div>
               <div className="kiwify-features">
                 <h3>O que você encontra lá:</h3>
                 <ul>
                   <li><Check className="lucide-icon" /> Acesso organizado por módulos</li>
-                  <li><Check className="lucide-icon" /> Consumo de aulas em vídeo e texto</li>
+                  <li><Check className="lucide-icon" /> Conteúdo em texto e vídeo, quando disponível</li>
                   <li><Check className="lucide-icon" /> Download de materiais complementares</li>
-                  <li><Check className="lucide-icon" /> Acesso vitalício, incluindo novas aulas e bônus</li>
-                  <li><Check className="lucide-icon" /> Emissão de certificado de conclusão</li>
+                  <li><Check className="lucide-icon" /> Acesso ao conteúdo adquirido enquanto ele estiver disponível na plataforma, conforme as condições da oferta</li>
+                  <li><Check className="lucide-icon" /> Certificado de conclusão, conforme os critérios informados na área de membros</li>
                 </ul>
               </div>
             </div>
@@ -185,9 +239,9 @@ export default function Home() {
             </div>
             <div className="author-content">
               <h3>Moisés Rabelo | UX, Growth & IA</h3>
-              <p className="author-quote">“O design só gera valor quando sai da tela e vira resultado no caixa. Eu te ensino o caminho.”</p>
-              <p>Com mais de 10 anos de experiência, vi projetos incríveis serem barrados por não falarem a língua dos negócios. Por isso, criei um método que conecta o design de experiência a métricas de conversão e retorno financeiro.</p>
-              <p>No ebook “Do Figma ao CFO”, reuni essa metodologia para que você transforme suas ideias em projetos aprovados e acelere sua carreira para uma posição realmente estratégica.</p>
+              <p className="author-quote">“O design gera mais valor quando conseguimos conectar decisões de produto às necessidades das pessoas e aos objetivos do negócio.”</p>
+              <p>Com mais de 10 anos de experiência, acompanhei projetos de design e produto em diferentes contextos e percebi como a comunicação com o negócio pode influenciar a forma como uma proposta é avaliada.</p>
+              <p>Por isso, criei o <strong>“Do Figma ao CFO”</strong>: uma metodologia prática para ajudar profissionais de UX, UI e Produto a estruturar melhor seus argumentos, métricas, hipóteses e apresentações. O objetivo é desenvolver uma atuação mais orientada ao negócio — sem deixar de lado o pensamento de design.</p>
             </div>
           </div>
         </section>
@@ -195,11 +249,17 @@ export default function Home() {
         <section className="final-cta-section">
           <div className="container">
             <div className="guarantee-badge">
-              <span><Shield size={20} style={{verticalAlign: 'middle', marginRight: '8px'}}/> Garantia Incondicional de 7 Dias</span>
+              <span><Shield size={20} style={{verticalAlign: 'middle', marginRight: '8px'}}/> Garantia de 7 Dias</span>
             </div>
-            <h2>Seu único risco é continuar tendo projetos engavetados.</h2>
-            <p>Se em 7 dias você achar que este material não é um divisor de águas para sua carreira, devolvemos 100% do seu investimento. Simples assim.</p>
+            <h2>Conheça o material por 7 dias. Se você decidir que o conteúdo não é adequado para você, poderá solicitar o reembolso dentro do prazo e das condições da garantia oferecida na plataforma.</h2>
             <a href={KIWIFY_URL} target="_blank" rel="noreferrer" className="final-cta-button">COMPRAR POR R$47 AGORA</a>
+          </div>
+        </section>
+
+        <section className="disclaimer-section">
+          <div className="container">
+            <h4>Importante</h4>
+            <p>Este produto tem caráter <strong>educacional</strong>. Os exemplos, métricas, estimativas e cenários apresentados servem como referências para apoiar a análise e a comunicação de projetos. A aplicação do conteúdo depende do contexto, dos dados disponíveis, da empresa e das decisões dos envolvidos. <strong>O material não garante aprovação de projetos, aumento de receita, promoção, contratação, aumento salarial ou qualquer resultado financeiro ou profissional específico.</strong></p>
           </div>
         </section>
       </main>
