@@ -68,7 +68,7 @@ const CountdownBanner = () => {
     <div className="countdown-banner">
       <div className="container countdown-inner">
         <p>
-          <strong>Oferta por tempo limitado!</strong> A promoção termina em: 
+          <strong>Oferta de lançamento por tempo limitado!</strong> A promoção termina em: 
           <span className="countdown-timer">
             {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
           </span>
