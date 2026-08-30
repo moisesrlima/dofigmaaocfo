@@ -11,13 +11,14 @@ import CountdownBanner from './components/CountdownBanner'
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null)
 
   const KIWIFY_URL = "https://pay.kiwify.com.br/Zyk82qK"
 
   const carouselImages = [
     { src: "https://i.postimg.cc/3rVGPGz7/Captura-de-Tela-2026-08-23-a-s-02-47-51.png", alt: "Tela inicial da comunidade", caption: "Tela inicial da comunidade" },
     { src: "https://i.postimg.cc/Qx77strF/Captura-de-Tela-2026-08-23-a-s-02-49-39.png", alt: "Planilha com formulas", caption: "Planilha com formulas" },
-    { src: "https://i.postimg.cc/vHnnMBdv/Captura-de-Tela-2026-08-23-a-s-03-05-11.png", alt: "Exemplo do certificado", caption: "Exemplo do certificado" },
+    { src: "https://i.postimg.cc/8PDFQVTk/Captura-de-Tela-2026-08-23-a-s-04-19-38.png", alt: "Exemplo do certificado", caption: "Exemplo do certificado" },
     { src: "https://i.postimg.cc/J7vX9XSB/Captura-de-Tela-2026-08-23-a-s-03-25-22.png", alt: "Lista do material anexo disponivel", caption: "Lista do material anexo disponível" },
   ];
 
@@ -111,16 +112,11 @@ export default function Home() {
               <p className="hero-subtitle">DE DESIGNER EXECUTOR A LÍDER ESTRATÉGICO</p>
               <h1 className="hero-title">Aprenda a falar a língua que aprova projetos: a do dinheiro.</h1>
               <p className="hero-description">Traduza o valor do seu design em impacto financeiro e veja seus projetos saírem do Figma para o mercado.</p>
-              <div className="price-box-hero">
-                <span className="old-price">De R$297</span>
-                <span className="new-price">por R$47</span>
-              </div>
-              <p className="installments">Oferta por tempo limitado</p>
               <a href={KIWIFY_URL} target="_blank" rel="noreferrer" className="cta-button big-cta-button">QUERO TRANSFORMAR MINHA CARREIRA</a>
               <p className="secure-badge"><Shield size={16} style={{verticalAlign: 'middle', marginRight: '4px'}}/> Compra segura e acesso imediato na Kiwify</p>
             </div>
             <div className="hero-visual">
-              <img src="https://i.postimg.cc/wjry9MpC/Code-Generated-Image-optimized.jpg" alt="Capa do Ebook Do Figma ao CFO" />
+              <img src="https://i.postimg.cc/QCSyy65P/Gemini-Generated-Image-nl2l5unl2l5unl2l-optimized.jpg" alt="Capa do Ebook Do Figma ao CFO" />
             </div>
           </div>
         </section>
@@ -194,7 +190,7 @@ export default function Home() {
               <div className="kiwify-carousel">
                 <div className="carousel-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                   {carouselImages.map((image, index) => (
-                    <div className="carousel-slide" key={index}>
+                    <div className="carousel-slide" key={index} onClick={() => setZoomedImage(image.src)}>
                       <img src={image.src} alt={image.alt} />
                       <span className="slide-caption">{image.caption}</span>
                     </div>
@@ -252,7 +248,11 @@ export default function Home() {
               <span><Shield size={20} style={{verticalAlign: 'middle', marginRight: '8px'}}/> Garantia de 7 Dias</span>
             </div>
             <h2>Conheça o material por 7 dias. Se você decidir que o conteúdo não é adequado para você, poderá solicitar o reembolso dentro do prazo e das condições da garantia oferecida na plataforma.</h2>
-            <a href={KIWIFY_URL} target="_blank" rel="noreferrer" className="final-cta-button">COMPRAR POR R$47 AGORA</a>
+            <div className="price-box-final">
+              <span className="old-price">De R$297</span>
+              <span className="new-price">por apenas R$47</span>
+            </div>
+            <a href={KIWIFY_URL} target="_blank" rel="noreferrer" className="final-cta-button">GARANTIR MEU ACESSO POR R$47</a>
           </div>
         </section>
 
@@ -260,6 +260,7 @@ export default function Home() {
           <div className="container">
             <h4>Importante</h4>
             <p>Este produto tem caráter <strong>educacional</strong>. Os exemplos, métricas, estimativas e cenários apresentados servem como referências para apoiar a análise e a comunicação de projetos. A aplicação do conteúdo depende do contexto, dos dados disponíveis, da empresa e das decisões dos envolvidos. <strong>O material não garante aprovação de projetos, aumento de receita, promoção, contratação, aumento salarial ou qualquer resultado financeiro ou profissional específico.</strong></p>
+            <p style={{ marginTop: '16px', fontSize: '0.8rem' }}>Este é um produto criado por Moisés Rabelo. Todas as marcas e ferramentas mencionadas (como Figma, Kiwify, etc.) são propriedades de seus respectivos donos e são utilizadas apenas para fins educacionais e de referência. Não há qualquer endosso ou afiliação oficial com essas empresas.</p>
           </div>
         </section>
       </main>
@@ -269,6 +270,13 @@ export default function Home() {
           <p>© 2026 Moisés Rabelo | Do Figma ao CFO. Todos os direitos reservados.</p>
         </div>
       </footer>
+
+      {zoomedImage && (
+        <div className="zoom-modal" onClick={() => setZoomedImage(null)}>
+          <img src={zoomedImage} alt="Imagem ampliada" />
+          <button className="close-zoom-button" onClick={() => setZoomedImage(null)}><X /></button>
+        </div>
+      )}
     </>
   )
 }

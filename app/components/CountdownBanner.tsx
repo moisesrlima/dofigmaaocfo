@@ -27,6 +27,7 @@ const CountdownBanner = () => {
 
       if (difference > 0) {
         setIsOfferActive(true)
+        setShowBanner(true) // Mostra o banner se a oferta estiver ativa
         setTimeLeft({
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
@@ -35,6 +36,7 @@ const CountdownBanner = () => {
         })
       } else {
         setIsOfferActive(false)
+        setShowBanner(false)
       }
     }
 
@@ -43,24 +45,11 @@ const CountdownBanner = () => {
     return () => clearInterval(timer)
   }, [])
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200
-      if (isBottom && isOfferActive) {
-        setShowBanner(true)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [isOfferActive])
-
   const handleClose = () => {
     setShowBanner(false)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  if (!showBanner) {
+  if (!isOfferActive || !showBanner) {
     return null
   }
 
