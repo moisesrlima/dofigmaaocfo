@@ -5,8 +5,11 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-    // Domains allowed for external images (for future use if we self-host)
-    domains: ['i.postimg.cc', 'postimg.cc'],
+    // Remote patterns allowed for external images (replaces deprecated domains)
+    remotePatterns: [
+      { protocol: 'https', hostname: 'i.postimg.cc', pathname: '/**' },
+      { protocol: 'https', hostname: 'postimg.cc', pathname: '/**' },
+    ],
   },
   // Enable compression for better performance
   compress: true,
