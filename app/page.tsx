@@ -110,9 +110,9 @@ export default function Home() {
           <div className="container hero-inner">
             <div className="hero-content">
               <p className="hero-subtitle">DE DESIGNER EXECUTOR A LÍDER ESTRATÉGICO</p>
-              <h1 className="hero-title">Aprenda a falar a língua que aprova projetos: a do dinheiro.</h1>
-              <p className="hero-description">Traduza o valor do seu design em impacto financeiro e veja seus projetos saírem do Figma para o mercado.</p>
-              <a href={KIWIFY_URL} target="_blank" rel="noopener noreferrer" className="cta-button big-cta-button" data-cta="hero">QUERO TRANSFORMAR MINHA CARREIRA</a>
+              <h1 className="hero-title">Do Figma ao CFO: pare de vender telas. Aprenda a falar de retorno, impacto e cifrões.</h1>
+              <p className="hero-description">Métricas, ROI, business case e argumentos que fazem o CFO dizer SIM para seus projetos de design.</p>
+              <a href={KIWIFY_URL} target="_blank" rel="noopener noreferrer" className="cta-button big-cta-button" data-cta="hero">QUERO APRENDER A FALAR DE DINHEIRO</a>
               <p className="secure-badge"><Shield size={16} style={{verticalAlign: 'middle', marginRight: '4px'}}/> Compra segura e acesso imediato na Kiwify</p>
             </div>
             <div className="hero-visual">
