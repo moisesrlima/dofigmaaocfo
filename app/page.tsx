@@ -65,7 +65,7 @@ export default function Home() {
   const bonuses = [
     {
       icon: <Download className="lucide-icon" />,
-      title: 'Amostra Grátis — Canvas UX → Negócio',
+      title: 'Canvas UX → Negócio',
       description: 'Baixe uma versão gratuita do nosso principal framework e veja na prática como organizar suas ideias para gerar impacto no negócio.',
       isFreeSample: true,
       link: '/Canvas-gratuito-do-figma-ao-cfo.pdf'
@@ -109,8 +109,8 @@ export default function Home() {
         <section className="hero-conversion">
           <div className="container hero-inner">
             <div className="hero-content">
-              <p className="hero-subtitle">DE DESIGNER EXECUTOR A LÍDER ESTRATÉGICO</p>
-              <h1 className="hero-title">Do Figma ao CFO: pare de vender telas. Aprenda a falar de retorno, impacto e cifrões.</h1>
+              <p className="hero-subtitle">Do Figma ao CFO:</p>
+              <h1 className="hero-title">Pare de vender telas. Aprenda a falar de ROI, impacto e $$$.</h1>
               <p className="hero-description">Métricas, ROI, business case e argumentos que fazem o CFO dizer SIM para seus projetos de design.</p>
               <a href={KIWIFY_URL} target="_blank" rel="noopener noreferrer" className="cta-button big-cta-button" data-cta="hero">QUERO APRENDER A FALAR DE DINHEIRO</a>
               <p className="secure-badge"><Shield size={16} style={{verticalAlign: 'middle', marginRight: '4px'}}/> Compra segura e acesso imediato na Kiwify</p>
@@ -161,7 +161,7 @@ export default function Home() {
 
         <section className="bonuses-section">
           <div className="container">
-            <h2>E não é só isso. Você ainda recebe 5 bônus + uma amostra gratuita:</h2>
+            <h2>E não é só isso. Você ainda recebe 5 bônus + um canvas exclusivo:</h2>
             <div className="bonuses-grid">
               {bonuses.map((bonus, index) => (
                 <div key={index} className={`bonus-card ${bonus.isFreeSample ? 'free-sample' : ''}`}>
