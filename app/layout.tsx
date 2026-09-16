@@ -3,15 +3,15 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Do Figa ao CFO — Transforme Design em Resultado de Negócio',
-  description: 'Ebook prático para Product Designers transformarem decisões de interface em métricas de negócio, ROI e argumentos para aprovar projetos no C-Level. Aprenda a falar a língua do dinheiro.',
-  keywords: ['ebook design', 'figma ao cfo', 'product designer', 'ux metrics', 'roi design', 'design system', 'gestão de produto', 'design para negócios'],
+  title: 'Kit SABATINA 2.0 — Método Blindagem de Evidências de Ideias',
+  description: 'Prepare as evidências da sua ideia e sobreviva às perguntas que decidem com o Kit SABATINA 2.0.',
+  keywords: ['kit sabatina 2.0', 'blindagem de evidências de ideias', 'business case', 'decisão de negócio', 'apresentação executiva', 'métricas de impacto'],
   author: 'Moisés Rabelo',
   openGraph: {
-    title: 'Do Figa ao CFO — Transforme Design em Resultado de Negócio',
-    description: 'Ebook prático para Product Designers transformarem decisões de interface em métricas de negócio, ROI e argumentos para aprovar projetos no C-Level.',
+    title: 'Kit SABATINA 2.0 — Método Blindagem de Evidências de Ideias',
+    description: 'Prepare as evidências da sua ideia e sobreviva às perguntas que decidem com o Kit SABATINA 2.0.',
     url: 'https://www.dofigmaocfo.com.br',
-    siteName: 'Do Figma ao CFO',
+    siteName: 'SABATINA',
     locale: 'pt_BR',
     type: 'website',
     images: [
@@ -25,8 +25,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Do Figa ao CFO — Transforme Design em Resultado de Negócio',
-    description: 'Ebook prático para Product Designers transformarem decisões de interface em métricas de negócio, ROI e argumentos para aprovar projetos no C-Level.',
+    title: 'Kit SABATINA 2.0 — Método Blindagem de Evidências de Ideias',
+    description: 'Prepare as evidências da sua ideia e sobreviva às perguntas que decidem com o Kit SABATINA 2.0.',
     images: ['https://i.postimg.cc/QCSyy65P/Gemini-Generated-Image-nl2l5unl2l5unl2l-optimized.jpg'],
   },
   robots: {
@@ -55,8 +55,8 @@ export default function RootLayout({
               {
                 '@context': 'https://schema.org',
                 '@type': 'Product',
-                name: 'Do Figma ao CFO — Transforme Design em Resultado de Negócio',
-                description: 'Ebook prático para Product Designers transformarem decisões de interface em métricas de negócio, ROI e argumentos para aprovar projetos no C-Level.',
+                name: 'Kit SABATINA 2.0 — Método Blindagem de Evidências de Ideias',
+                description: 'Kit prático para preparar as evidências de ideias, produtos e projetos antes de uma decisão de negócio.',
                 image: 'https://i.postimg.cc/QCSyy65P/Gemini-Generated-Image-nl2l5unl2l5unl2l-optimized.jpg',
                 brand: { '@type': 'Brand', name: 'Moisés Rabelo' },
                 offers: {
@@ -85,7 +85,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased">
+      <body className="antialiased" suppressHydrationWarning>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
