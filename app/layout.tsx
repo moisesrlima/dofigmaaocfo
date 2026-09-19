@@ -4,13 +4,13 @@ import Script from 'next/script'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Kit SABATINA 2.0 — Método Blindagem de Evidências de Ideias',
-  description: 'Prepare as evidências da sua ideia e sobreviva às perguntas que decidem com o Kit SABATINA 2.0.',
+  title: 'SEU PRODUTO AINDA VALE A PENA? — SABATINA 2.0',
+  description: 'Antes de investir mais, descubra se você tem evidências suficientes para continuar. Organize problema, comportamento, métrica, impacto e decisão.',
   keywords: ['kit sabatina 2.0', 'blindagem de evidências de ideias', 'business case', 'decisão de negócio', 'apresentação executiva', 'métricas de impacto'],
   author: 'Moisés Rabelo',
   openGraph: {
-    title: 'Kit SABATINA 2.0 — Método Blindagem de Evidências de Ideias',
-    description: 'Prepare as evidências da sua ideia e sobreviva às perguntas que decidem com o Kit SABATINA 2.0.',
+    title: 'SEU PRODUTO AINDA VALE A PENA? — SABATINA 2.0',
+    description: 'Antes de investir mais, organize as evidências que sustentam sua próxima decisão.',
     url: 'https://www.dofigmaocfo.com.br',
     siteName: 'SABATINA',
     locale: 'pt_BR',
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kit SABATINA 2.0 — Método Blindagem de Evidências de Ideias',
-    description: 'Prepare as evidências da sua ideia e sobreviva às perguntas que decidem com o Kit SABATINA 2.0.',
+    title: 'SEU PRODUTO AINDA VALE A PENA? — SABATINA 2.0',
+    description: 'Antes de investir mais, organize as evidências que sustentam sua próxima decisão.',
     images: ['https://i.postimg.cc/QCSyy65P/Gemini-Generated-Image-nl2l5unl2l5unl2l-optimized.jpg'],
   },
   robots: {
@@ -80,11 +80,6 @@ export default function RootLayout({
                   price: '47.00',
                   availability: 'https://schema.org/InStock',
                   seller: { '@type': 'Person', name: 'Moisés Rabelo' },
-                },
-                aggregateRating: {
-                  '@type': 'AggregateRating',
-                  ratingValue: '4.9',
-                  reviewCount: '127',
                 },
               },
               {

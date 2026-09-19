@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import { 
   BookOpen, Target, BarChart3, Calculator, FileText, Presentation, 
@@ -12,6 +12,7 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [zoomedImage, setZoomedImage] = useState<string | null>(null)
+  const [isQuizOpen, setIsQuizOpen] = useState(false)
   const [quizStarted, setQuizStarted] = useState(false)
   const [quizFinished, setQuizFinished] = useState(false)
   const [quizIndex, setQuizIndex] = useState(0)
@@ -23,9 +24,9 @@ export default function Home() {
 
   const carouselImages = [
     { src: "https://i.postimg.cc/3rVGPGz7/Captura-de-Tela-2026-08-23-a-s-02-47-51.png", alt: "Tela inicial da comunidade", caption: "Tela inicial da comunidade" },
-    { src: "https://i.postimg.cc/Qx77strF/Captura-de-Tela-2026-08-23-a-s-02-49-39.png", alt: "Planilha com formulas", caption: "Planilha com formulas" },
+    { src: "https://i.postimg.cc/Qx77strF/Captura-de-Tela-2026-08-23-a-s-02-49-39.png", alt: "Planilha com fórmulas", caption: "Planilha com fórmulas" },
     { src: "https://i.postimg.cc/8PDFQVTk/Captura-de-Tela-2026-08-23-a-s-04-19-38.png", alt: "Exemplo do certificado", caption: "Exemplo do certificado" },
-    { src: "https://i.postimg.cc/J7vX9XSB/Captura-de-Tela-2026-08-23-a-s-03-25-22.png", alt: "Lista do material anexo disponivel", caption: "Lista do material anexo disponível" },
+    { src: "https://i.postimg.cc/J7vX9XSB/Captura-de-Tela-2026-08-23-a-s-03-25-22.png", alt: "Lista do material anexo disponível", caption: "Lista do material anexo disponível" },
   ];
 
   // Auto-play: troca de slide a cada 5 segundos
@@ -96,10 +97,10 @@ export default function Home() {
 
   const audience = [
     'Empreendedores digitais validando uma nova iniciativa',
-    'Profissionais de produto e gestores defendendo prioridades',
-    'Pessoas em transição de carreira ou assumindo mais responsabilidade',
-    'Designers migrando para estratégia e negócio',
-    'Intraempreendedores apresentando propostas para a liderança',
+    'Donos de produto defendendo seus projetos',
+    'Profissionais de produto justificando decisões',
+    'Gestores alocando recursos e priorizando iniciativas',
+    'Founders buscando validação para próximas etapas',
     'Quem precisa convencer clientes, sócios ou investidores',
   ]
 
@@ -112,33 +113,34 @@ export default function Home() {
 
   const quizQuestions = [
     {
-      question: 'Antes de defender uma ideia, o que precisa estar claro?',
-      options: ['O visual da solução', 'O problema que precisa ser resolvido', 'O nome do projeto', 'A opinião da equipe'],
-      answer: 1,
-    },
-    {
-      question: 'Por que observar o comportamento das pessoas?',
-      options: ['Para entender como o problema aparece na prática', 'Para escolher uma cor melhor', 'Para evitar qualquer hipótese', 'Para substituir a decisão do negócio'],
-      answer: 0,
-    },
-    {
-      question: 'Uma boa métrica deve ajudar você a...',
-      options: ['Encher a apresentação de números', 'Provar qualquer conclusão', 'Acompanhar se a mudança gerou o efeito esperado', 'Garantir um resultado financeiro'],
+      question: 'A banca pergunta: “Qual problema esta iniciativa resolve?” Qual resposta é mais forte?',
+      options: ['“É uma solução inovadora para o mercado.”', '“A equipe gostou bastante do conceito.”', '“Atacamos este problema observado neste comportamento, que gera este impacto.”', '“Outras empresas já estão fazendo algo parecido.”'],
       answer: 2,
     },
     {
-      question: 'Como apresentar o impacto de uma iniciativa?',
-      options: ['Com uma promessa sem cenário', 'Conectando a mudança a valor e hipóteses claras', 'Usando apenas métricas de vaidade', 'Evitando falar de incertezas'],
+      question: 'A banca pede evidências de que o problema realmente existe. O que você apresenta primeiro?',
+      options: ['A versão final da interface', 'Observações, dados ou relatos que mostram o problema na prática', 'Uma lista de funcionalidades futuras', 'A opinião mais otimista do time'],
       answer: 1,
     },
     {
-      question: 'O que torna uma ideia mais preparada para uma decisão?',
-      options: ['Ter a resposta para toda pergunta', 'Apresentar mais slides', 'Conectar problema, evidência, impacto e próximo passo', 'Pedir aprovação antes de pesquisar'],
+      question: 'A banca pergunta: “Como saberemos se funcionou?” Qual métrica ajuda melhor nessa resposta?',
+      options: ['Uma métrica ligada ao comportamento que a iniciativa pretende mudar', 'O número total de telas do projeto', 'Qualquer número que faça o resultado parecer maior', 'A quantidade de reuniões realizadas'],
+      answer: 0,
+    },
+    {
+      question: 'A banca pergunta: “Quanto isso pode gerar?” Como responder com responsabilidade?',
+      options: ['Prometendo o maior resultado possível', 'Evitando números até ter certeza absoluta', 'Conectando a mudança a um cenário, uma hipótese e um impacto estimado', 'Usando apenas referências de outras empresas'],
+      answer: 2,
+    },
+    {
+      question: 'A banca encerra perguntando: “Qual é o próximo passo?” O que demonstra preparo?',
+      options: ['Pedir aprovação para fazer tudo de uma vez', 'Apresentar mais slides sobre a ideia', 'Definir um teste, critério de sucesso e decisão esperada', 'Dizer que a resposta depende de mais pesquisas'],
       answer: 2,
     },
   ]
 
   const startQuiz = () => {
+    setIsQuizOpen(true)
     setQuizStarted(true)
     setQuizFinished(false)
     setQuizIndex(0)
@@ -147,7 +149,7 @@ export default function Home() {
     setQuizFeedback(null)
   }
 
-  const advanceQuiz = (isCorrect: boolean) => {
+  const advanceQuiz = useCallback((isCorrect: boolean) => {
     const nextScore = quizScore + (isCorrect ? 1 : 0)
     setQuizScore(nextScore)
     setQuizFeedback(isCorrect ? 'Boa resposta. Você está construindo uma defesa com evidências.' : 'Essa resposta mostra um ponto que ainda precisa ser preparado antes da mesa.')
@@ -155,7 +157,7 @@ export default function Home() {
     if (quizIndex === quizQuestions.length - 1) {
       setQuizFinished(true)
     }
-  }
+  }, [quizIndex, quizScore, quizQuestions.length])
 
   const submitQuizAnswer = (answerIndex: number) => {
     if (quizFeedback || quizFinished) return
@@ -166,22 +168,38 @@ export default function Home() {
     if (!quizStarted || quizFinished || quizFeedback) return
 
     if (quizTimeLeft <= 0) {
-      advanceQuiz(false)
-      return
+      const timeout = setTimeout(() => advanceQuiz(false), 0)
+      return () => clearTimeout(timeout)
     }
 
     const timer = setTimeout(() => setQuizTimeLeft(prev => prev - 1), 1000)
 
     return () => clearTimeout(timer)
-  }, [quizStarted, quizFinished, quizFeedback, quizIndex, quizScore, quizTimeLeft])
+  }, [advanceQuiz, quizStarted, quizFinished, quizFeedback, quizTimeLeft])
+
+  useEffect(() => {
+    if (!isQuizOpen) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsQuizOpen(false)
+    }
+
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = ''
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isQuizOpen])
 
   const quizPercentage = Math.round(5 + (quizScore / quizQuestions.length) * 90)
 
   return (
     <>
       <Head>
-        <title>Kit SABATINA 2.0 — Método Blindagem de Evidências de Ideias</title>
-        <meta name="description" content="Kit SABATINA 2.0: prepare as evidências da sua ideia e sobreviva às perguntas que decidem com o Método Blindagem de Evidências de Ideias." />
+        <title>SEU PRODUTO AINDA VALE A PENA? — SABATINA 2.0</title>
+        <meta name="description" content="Antes de investir mais, descubra se você tem evidências suficientes para continuar. O SABATINA 2.0 ajuda a organizar evidências para decisões de produto, negócio e estratégia." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -209,49 +227,14 @@ export default function Home() {
         <section className="hero-conversion">
           <div className="container hero-inner">
             <div className="hero-content">
-              <p className="hero-subtitle">KIT SABATINA 2.0</p>
-              <h1 className="hero-title">Prepare as evidências da sua ideia. Sobreviva às perguntas que decidem.</h1>
-              <p className="hero-description">SABATINA é o kit que aplica o Método Blindagem de Evidências de Ideias para transformar ideias, produtos e projetos em argumentos prontos para a mesa de decisão.</p>
+              <p className="hero-subtitle">Antes de investir mais, descubra se você tem evidências suficientes para continuar.</p>
+              <h1 className="hero-title">SEU PRODUTO AINDA VALE A PENA?</h1>
+              <p className="hero-description">O SABATINA 2.0 ajuda a organizar as evidências que sustentam a decisão de continuar, ajustar, investir mais ou mudar sua iniciativa digital.</p>
               <div className="hero-actions">
-                <a href={KIWIFY_URL} target="_blank" rel="noopener noreferrer" className="cta-button big-cta-button" data-cta="hero">QUERO ME PREPARAR PARA A SABATINA</a>
-                <button type="button" className="quiz-trigger" onClick={startQuiz}>TESTAR SE ESTOU PREPARADO</button>
+                <a href={KIWIFY_URL} target="_blank" rel="noopener noreferrer" className="cta-button big-cta-button" data-cta="hero">FAZER MINHA SABATINA</a>
+                <button type="button" className="quiz-trigger" onClick={startQuiz}>FAZER O DIAGNÓSTICO</button>
               </div>
               <p className="secure-badge"><Shield size={16} style={{verticalAlign: 'middle', marginRight: '4px'}}/> Compra segura e acesso imediato na Kiwify</p>
-              <div className="quiz-panel" id="teste-sabatina">
-                {!quizStarted && (
-                  <>
-                    <span className="quiz-label">DIAGNÓSTICO RÁPIDO</span>
-                    <h2>Você está preparado para a SABATINA?</h2>
-                    <p>5 perguntas para testar se sua ideia está pronta para as perguntas que decidem. Você terá 1 minuto por pergunta.</p>
-                    <button type="button" className="quiz-start-button" onClick={startQuiz}>COMEÇAR TESTE</button>
-                  </>
-                )}
-                {quizStarted && !quizFinished && (
-                  <>
-                    <div className="quiz-progress">
-                      <span>PERGUNTA {quizIndex + 1} DE {quizQuestions.length}</span>
-                      <strong>{quizTimeLeft}s</strong>
-                    </div>
-                    <h2>{quizQuestions[quizIndex].question}</h2>
-                    <div className="quiz-options">
-                      {quizQuestions[quizIndex].options.map((option, optionIndex) => (
-                        <button type="button" key={option} onClick={() => submitQuizAnswer(optionIndex)} disabled={Boolean(quizFeedback)}>{option}</button>
-                      ))}
-                    </div>
-                    {quizFeedback && <div className="quiz-feedback"><p>{quizFeedback}</p>{quizIndex < quizQuestions.length - 1 && <button type="button" onClick={() => { setQuizFeedback(null); setQuizIndex(prev => prev + 1); setQuizTimeLeft(60) }}>PRÓXIMA PERGUNTA</button>}</div>}
-                  </>
-                )}
-                {quizFinished && (
-                  <>
-                    <span className="quiz-label">RESULTADO DA SABATINA</span>
-                    <div className="quiz-result-score">{quizPercentage}%</div>
-                    <h2>{quizScore === quizQuestions.length ? 'Você está preparado para a mesa.' : 'Você ainda não está preparado.'}</h2>
-                    <p>{quizScore === quizQuestions.length ? 'Sua base está consistente. Agora transforme esse preparo em uma defesa completa.' : 'Uma ou mais respostas revelaram pontos frágeis. O Kit SABATINA 2.0 ajuda você a preparar as evidências antes de encarar a mesa.'}</p>
-                    <a href={KIWIFY_URL} target="_blank" rel="noreferrer" className="quiz-buy-button">ADQUIRIR O KIT SABATINA 2.0</a>
-                    <button type="button" className="quiz-restart-button" onClick={startQuiz}>REFAZER TESTE</button>
-                  </>
-                )}
-              </div>
             </div>
             <div className="hero-visual">
               <img src="/ebook-sabatina-2.0.png" alt="Capa do Kit SABATINA 2.0" loading="lazy" />
@@ -259,18 +242,69 @@ export default function Home() {
           </div>
         </section>
 
+        {isQuizOpen && (
+          <div className="quiz-modal" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setIsQuizOpen(false) }}>
+            <div className="quiz-panel quiz-modal-content" role="dialog" aria-modal="true" aria-labelledby="quiz-modal-title">
+              <button type="button" className="quiz-modal-close" onClick={() => setIsQuizOpen(false)} aria-label="Fechar quiz">
+                <X size={20} />
+              </button>
+              {!quizStarted && (
+                <>
+                  <span className="quiz-label">SIMULAÇÃO DE SABATINA</span>
+                  <h2 id="quiz-modal-title">Como você responderia à banca?</h2>
+                  <p>5 perguntas para simular uma mesa de decisão. Você terá 1 minuto por pergunta.</p>
+                  <button type="button" className="quiz-start-button" onClick={startQuiz}>COMEÇAR SIMULAÇÃO</button>
+                </>
+              )}
+              {quizStarted && !quizFinished && (
+                <>
+                  <div className="quiz-progress">
+                    <span>PERGUNTA {quizIndex + 1} DE {quizQuestions.length}</span>
+                    <strong>{quizTimeLeft}s</strong>
+                  </div>
+                  <h2 id="quiz-modal-title">{quizQuestions[quizIndex].question}</h2>
+                  <div className="quiz-options">
+                    {quizQuestions[quizIndex].options.map((option, optionIndex) => (
+                      <button type="button" key={option} onClick={() => submitQuizAnswer(optionIndex)} disabled={Boolean(quizFeedback)}>{option}</button>
+                    ))}
+                  </div>
+                  {quizFeedback && <div className="quiz-feedback"><p>{quizFeedback}</p>{quizIndex < quizQuestions.length - 1 && <button type="button" onClick={() => { setQuizFeedback(null); setQuizIndex(prev => prev + 1); setQuizTimeLeft(60) }}>PRÓXIMA PERGUNTA</button>}</div>}
+                </>
+              )}
+              {quizFinished && (
+                <>
+                  <span className="quiz-label">RESULTADO DA SABATINA</span>
+                  <div className="quiz-result-score">{quizPercentage}%</div>
+                  <h2 id="quiz-modal-title">Seu diagnóstico de clareza e evidência</h2>
+                  <p>{quizScore === quizQuestions.length ? 'Você conectou problema, evidência, impacto e decisão. Use esse mapa para observar o que ainda precisa ser acompanhado.' : 'Suas respostas mostram onde organizar melhor problema, evidência, impacto e decisão antes de investir mais.'}</p>
+                  <a href={KIWIFY_URL} target="_blank" rel="noreferrer" className="quiz-buy-button">ADQUIRIR O KIT SABATINA 2.0</a>
+                  <button type="button" className="quiz-restart-button" onClick={startQuiz}>REFAZER TESTE</button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
         <section className="pain-point-section">
           <div className="container">
             <p className="section-kicker">Antes da mesa, vem a prova</p>
-            <h2>Você está pronto para a sabatina?</h2>
+            <h2>O que você responderia sem improvisar?</h2>
             <div className="pain-points-grid">
               <div className="story-card">
-                <h3>“Qual problema isso resolve?”</h3>
-                <p>Você tem uma proposta, mas ainda não consegue mostrar por que ela importa e para quem.</p>
+                <h3>“Qual problema?”</h3>
+                <p>Você consegue mostrar onde ele aparece e quem é afetado?</p>
               </div>
               <div className="story-card">
-                <h3>“Quanto isso pode gerar?”</h3>
-                <p>A conversa muda quando pedem evidências, impacto, prioridade e um motivo concreto para decidir agora.</p>
+                <h3>“Qual evidência?”</h3>
+                <p>Você tem sinais observáveis ou apenas a convicção do time?</p>
+              </div>
+              <div className="story-card">
+                <h3>“Qual impacto?”</h3>
+                <p>Você consegue ligar a mudança a um efeito que vale acompanhar?</p>
+              </div>
+              <div className="story-card">
+                <h3>“Qual decisão?”</h3>
+                <p>Está claro o que precisa acontecer depois desta análise?</p>
               </div>
             </div>
             <p className="pain-point-solution"><strong>Uma boa ideia não se defende sozinha.</strong> A blindagem começa antes da reunião: problema, comportamento, métrica, impacto e decisão.</p>
@@ -299,15 +333,15 @@ export default function Home() {
               <p className="section-kicker">A lógica do Kit SABATINA 2.0</p>
               <h2>Não é sobre improvisar uma resposta. É sobre blindar o raciocínio.</h2>
             </div>
-            <p>O Método Blindagem de Evidências de Ideias organiza o raciocínio por trás de uma decisão de negócio. Você parte do problema, conecta comportamento e métricas, estima impacto e chega à reunião pronto para responder: por que isso, por que agora e qual o impacto?</p>
+            <p>O Método Blindagem de Evidências de Ideias organiza o raciocínio por trás de uma decisão de negócio: <strong>PROBLEMA → COMPORTAMENTO → MÉTRICA → IMPACTO → DECISÃO.</strong> O ciclo continua depois da escolha: <strong>ANALISAR → DECIDIR → INVESTIR → OBSERVAR → ANALISAR NOVAMENTE.</strong></p>
           </div>
         </section>
 
         <section className="audience-section">
           <div className="container audience-grid">
             <div>
-              <p className="section-kicker">Para quem encara a mesa</p>
-              <h2>Para quem precisa sustentar uma ideia quando as perguntas começam.</h2>
+              <p className="section-kicker">Para quem precisa decidir</p>
+              <h2>Antes de investir mais, saiba por quê.</h2>
             </div>
             <ul className="audience-list">
               {audience.map((item) => <li key={item}><Check className="lucide-icon" />{item}</li>)}
@@ -317,20 +351,20 @@ export default function Home() {
 
         <section className="transformation-section">
           <div className="container">
-            <p className="section-kicker">O efeito da blindagem</p>
-            <h2>Você deixa de torcer por aprovação para entrar na sabatina com uma tese.</h2>
+            <p className="section-kicker">O efeito da SABATINA</p>
+            <h2>Você deixa de decidir por opinião para decidir por evidências.</h2>
             <div className="transformation-grid">
-              <div className="transformation-card before"><span>ANTES</span><strong>“Tenho uma ideia.”</strong><p>Uma proposta solta, difícil de priorizar e defender.</p></div>
+              <div className="transformation-card before"><span>ANTES</span><strong>“Eu acho que devemos continuar.”</strong><p>Opinião sem problema, evidência ou impacto organizados.</p></div>
               <div className="transformation-arrow">→</div>
-              <div className="transformation-card after"><span>DEPOIS</span><strong>“Tenho evidências para decidir.”</strong><p>Um argumento claro, com impacto, cenários e próximo passo.</p></div>
+              <div className="transformation-card after"><span>DEPOIS</span><strong>“Estas são as evidências. Este é o impacto. Esta é a decisão.”</strong><p>Opinião organizada em evidência, impacto e próximo passo.</p></div>
             </div>
           </div>
         </section>
 
         <section className="what-you-get-section">
           <div className="container">
-            <p className="section-kicker">O que existe dentro do produto</p>
-            <h2>O Kit SABATINA 2.0, na prática</h2>
+            <p className="section-kicker">O que você recebe</p>
+            <h2>O SABATINA 2.0, na prática</h2>
             <div className="main-get-item">
               {whatYouGet[0].icon}
               <p>{whatYouGet[0].text}</p>
